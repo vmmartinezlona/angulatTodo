@@ -1,0 +1,100 @@
+<!-- <div class="row container justify-content-center m-auto p-5">
+  <div class="col-lg-12">
+    <div class="card px-3">
+      <div class="card-body">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" 
+            #todoName="ngModel" [(ngModel)]="newTodoName" maxlength="200" 
+            aria-label="What do you need to do today?" aria-describedby="char-counter">
+          <div class="input-group-append">
+            <span class="input-group-text" id="char-counter">{{ 200 - newTodoName.length }} / 200</span>
+          </div>
+          <button class="ml-3 btn btn-success" (click)="addTodo()">Add</button>
+        </div>
+
+
+        <div class="list-wrapper">
+          <ul class="d-flex flex-column-reverse todo-list">
+
+            <li *ngFor="let task of todoList">
+              <div id="checkbox-{{task.id}}" class="row w-100 m-0 col-12" style="height: 60px;">
+                <div class="col-9 form-check"> 
+                  <label class="form-check-label"> 
+                    <input class="checkbox" type="checkbox"> {{ task.name }} <i class="input-helper"></i>
+                  </label> 
+                </div> 
+                <div class="col-3 text-right pr-0">
+                  <button type="button" class="btn btn-danger" (click)="deleteTodo(task.id)">Delete</button>
+                  <button type="button" class="btn btn-info ml-3" (click)="changeToEditMode(task.id)">Edit</button>
+                </div>
+              </div>
+
+              <div id="input-{{task.id}}" class="row w-100 m-0" style="height: 60px;">
+                <div class="col-12">
+                  <div id="input-{{task.id}}" class="input-group mb-3" style="display: none;">
+                    <input type="text" class="form-control" maxlength="200" 
+                      value="{{task.name}}" aria-describedby="char-counter">
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="char-counter">{{ 200 - task.name.length }} / 200</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              
+
+
+            </li>
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="row container justify-content-center m-auto p-5">
+  <div class="col-lg-12">
+    <div class="card px-3">
+      <div class="card-body">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" 
+            #todoName="ngModel" [(ngModel)]="newTodoName" maxlength="200" 
+            aria-label="What do you need to do today?" aria-describedby="char-counter">
+          <div class="input-group-append">
+            <span class="input-group-text" id="char-counter">{{ 200 - newTodoName.length }} / 200</span>
+          </div>
+          <button class="ml-3 btn btn-success" (click)="addTodo()">Add</button>
+        </div>
+
+
+        <div class="list-wrapper">
+          <ul class="d-flex flex-column-reverse todo-list">
+
+            <li *ngFor="let task of todoList">
+              <div class="row w-100 m-0 " style="height: 60px;">
+                <div class="col-10 p-0">
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control todo-task-input" maxlength="200" 
+                      value="{{task.name}}" aria-describedby="char-counter"
+                      (click)="editTodoTask($event, task.id)">
+                    <div class="input-group-append">
+                      <span class="input-group-text todo-task-char-count" id="char-counter">{{ 200 - task.name.length }} / 200</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2 text-right pr-0">
+                  <button type="button" class="btn btn-danger" (click)="deleteTodo(task.id)">Delete</button>
+                  <!-- <button type="button" class="btn btn-info ml-3" (click)="changeToEditMode(task.id)">Edit</button> -->
+                </div>
+              </div>           
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
