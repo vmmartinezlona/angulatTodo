@@ -4,13 +4,13 @@ import { TodoRepository } from '../repositories/todo.respository';
 import { TodoModel } from '../models/todo.model';
 
 export class TodoBloc {
-  private _todoList$: BehaviorSubject<TodoModel[]> = new BehaviorSubject<TodoModel[]>([]);
-  get todoList$(): TodoModel[] {
-    return this._todoList$.getValue();
+  #todoList$: BehaviorSubject<TodoModel[]> = new BehaviorSubject<TodoModel[]>([]);
+  get todoList$(): Observable<TodoModel[]> {
+    return this.#todoList$;
   }
 
   constructor(private todoRepository: TodoRepository) {
-    this.getTodoList();
+    this.#todoList$ = this.todoRepository.todoList$;
   }
 
   createTodo(name: string) {
@@ -26,11 +26,7 @@ export class TodoBloc {
     this.todoRepository.deleteTodo(todoId);
   }
 
-  getTodoList() {
-    this._todoList$ = this.todoRepository.todoList$;
-  }
-
   dispose() {
-    this._todoList$.complete();
+    this.#todoList$.complete();
   }
 }

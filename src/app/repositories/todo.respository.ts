@@ -5,21 +5,19 @@ import { TodoModel } from '../models/todo.model';
 
 @Injectable({ providedIn: 'root' })
 export class TodoRepository {
-  private _todoList$: BehaviorSubject<TodoModel[]> = new BehaviorSubject<TodoModel[]>([]);
-  private _todoListValue: Observable<TodoModel[]> = this._todoList$.asObservable();
+  #todoList$: BehaviorSubject<TodoModel[]> = new BehaviorSubject<TodoModel[]>([]);
+  get todoList$() {
+    return this.#todoList$;
+  }
 
   constructor(private todoService: TodoService) {
     this.getCompleteTodoList();
   }
 
-  get todoList$() {
-    return this._todoList$;
-  }
-
   getCompleteTodoList(): void {
     this.todoService.getCompleteTodoList().subscribe(res => {
       if (res.message === 'ok') {
-        this._todoList$.next(res.todoList);
+        this.#todoList$.next(res.todoList);
       }
     });
   }
@@ -27,9 +25,9 @@ export class TodoRepository {
   createTodo(todo: TodoModel): void {
     this.todoService.createTodo(todo).subscribe(res => {
       if (res.message === 'ok') {
-        const list: TodoModel[] = this._todoList$.getValue();
+        const list: TodoModel[] = this.#todoList$.getValue();
         list.push(todo);
-        this._todoList$.next(list);
+        this.#todoList$.next(list);
       }
     });
   }
@@ -37,12 +35,12 @@ export class TodoRepository {
   updateTodo(todo: TodoModel): void {
     this.todoService.updateTodo(todo).subscribe(res => {
       if (res.message === 'ok') {
-        const list: TodoModel[] = this._todoList$.getValue();
+        const list: TodoModel[] = this.#todoList$.getValue();
         list.map((task) => {
           if (task.id === todo.id) { task = todo; }
           return;
         });
-        this._todoList$.next(list);
+        this.#todoList$.next(list);
       }
     });
   }
@@ -50,12 +48,12 @@ export class TodoRepository {
   deleteTodo(todoId: string): void {
     this.todoService.deleteTodo(todoId).subscribe(res => {
       if (res.message === 'ok') {
-        const list: TodoModel[] = this._todoList$.getValue();
+        const list: TodoModel[] = this.#todoList$.getValue();
         const newList = list.filter((task) => {
           return task.id !== todoId;
         });
         console.log(newList);
-        this._todoList$.next(newList);
+        this.#todoList$.next(newList);
       }
     });
   }

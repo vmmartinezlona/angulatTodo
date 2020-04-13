@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TodoBloc } from '../../blocs/todo.bloc';
 import { TodoRepository } from 'src/app/repositories/todo.respository';
 import { TodoModel } from 'src/app/models/todo.model';
-import { DomSanitizer } from '@angular/platform-browser';
-import { $ } from 'protractor';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -11,9 +10,8 @@ import { $ } from 'protractor';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  public todoList: TodoModel[];
+  public todoList$: Observable<TodoModel[]>;
   public newTodoName = '';
-  private editTodoId: string;
   private todoBloc: TodoBloc;
 
   constructor(private todoRepository: TodoRepository) {
@@ -21,7 +19,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTodoList();
+    this.todoList$ = this.todoBloc.todoList$;
   }
 
   editTodoTask(e, todoId) {
@@ -44,19 +42,9 @@ export class HomeComponent implements OnInit {
 
   updateTodo(todoId: string, todoName: string) {
     this.todoBloc.updateTodo(todoId, todoName);
-    setTimeout(() => {
-      this.getTodoList();
-    }, 3000);
   }
 
   deleteTodo(todoId) {
     this.todoBloc.deleteTodo(todoId);
-    setTimeout(() => {
-      this.getTodoList();
-    }, 3000);
-  }
-
-  getTodoList() {
-    this.todoList = this.todoBloc.todoList$;
   }
 }
