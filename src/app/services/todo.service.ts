@@ -1,49 +1,57 @@
 import { Injectable } from '@angular/core';
-import { Todo } from '../models/todo.model';
+import { TodoModel } from '../models/todo.model';
 
 import { todoList } from './testTodoList';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
   delayInMilliseconds = 2000;
+  success = { message: 'ok' };
 
   constructor() { }
 
-  createTodo(todo: Todo, getMessage: (message: string) => void) {
+  createTodo(todo: TodoModel): Observable<any> {
     let params = todo as any;
     params = JSON.stringify(params);
-    setTimeout(() => {
-      getMessage('ok');
-    }, this.delayInMilliseconds);
+    this.sleep();
+    return of(this.success);
   }
 
-  readTodo(todoId: string, getTodo: (todo: Todo) => void) {
-    const testTodo: Todo = {
+  readTodo(todoId: string): Observable<any> {
+    const todo: TodoModel = {
       id: '196yc6z9g44',
       name: 'Cita en el quirofano'
     };
-    setTimeout(() => {
-      getTodo(testTodo);
-    }, this.delayInMilliseconds);
+    this.sleep();
+    return of({ message: 'ok', todo });
   }
 
-  updateTodo(todo: Todo, getMessage: (message: string) => void) {
+  updateTodo(todo: TodoModel): Observable<any> {
     let params = todo as any;
     params = JSON.stringify(params);
-    setTimeout(() => {
-      getMessage('ok');
-    }, this.delayInMilliseconds);
+    this.sleep();
+    return of(this.success);
   }
 
-  deleteTodo(todoId: string, getMessage: (message: string) => void) {
-    setTimeout(() => {
-      getMessage('ok');
-    }, this.delayInMilliseconds);
+  deleteTodo(todoId: string): Observable<any> {
+    this.sleep();
+    return of(this.success);
   }
 
-  getCompleteTodoList(getTodoList: (response: any) => void) {
-    getTodoList({ message: 'ok', todoList });
+  getCompleteTodoList(): Observable<any> {
+    this.sleep();
+    return of({ message: 'ok', todoList });
+  }
+
+
+  sleep() {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < this.delayInMilliseconds);
   }
 }

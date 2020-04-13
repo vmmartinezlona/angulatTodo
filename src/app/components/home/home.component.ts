@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoBloc } from '../../blocs/todo.bloc';
 import { TodoRepository } from 'src/app/repositories/todo.respository';
-import { Todo } from 'src/app/models/todo.model';
+import { TodoModel } from 'src/app/models/todo.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { $ } from 'protractor';
 
@@ -11,7 +11,7 @@ import { $ } from 'protractor';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  public todoList: Todo[];
+  public todoList: TodoModel[];
   public newTodoName = '';
   private editTodoId: string;
   private todoBloc: TodoBloc;

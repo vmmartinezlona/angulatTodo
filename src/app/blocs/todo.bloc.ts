@@ -1,11 +1,11 @@
 // import { Observable } from 'rxjs';
 import { BehaviorSubject, Observable, Observer, from as observableFrom } from 'rxjs';
 import { TodoRepository } from '../repositories/todo.respository';
-import { Todo } from '../models/todo.model';
+import { TodoModel } from '../models/todo.model';
 
 export class TodoBloc {
-  private _todoList$: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([]);
-  get todoList$(): Todo[] {
+  private _todoList$: BehaviorSubject<TodoModel[]> = new BehaviorSubject<TodoModel[]>([]);
+  get todoList$(): TodoModel[] {
     return this._todoList$.getValue();
   }
 
